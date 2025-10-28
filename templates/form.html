@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi Penyakit Jantung</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="backdrop"></div>
+    <main class="container">
+        <header class="header">
+            <h1>Prediksi Penyakit <span>Jantung</span></h1>
+            <p>Masukkan data pasien untuk memprediksi kemungkinan penyakit jantung.</p>
+        </header>
+
+        <form action="{{ url_for('predict') }}" method="POST" class="card form">
+            <div class="grid">
+                <label>
+                    <span>Umur</span>
+                    <input type="number" name="Age" min="0" max="120" placeholder="contoh: 45" required>
+                </label>
+                <label>
+                    <span>Tekanan Darah Istirahat (RestingBP)</span>
+                    <input type="number" name="RestingBP" min="0" max="300" placeholder="contoh: 120" required>
+                </label>
+                <label>
+                    <span>Kolesterol</span>
+                    <input type="number" name="Cholesterol" min="0" max="700" placeholder="contoh: 240" required>
+                </label>
+                <label>
+                    <span>Denyut Maksimum (MaxHR)</span>
+                    <input type="number" name="MaxHR" min="0" max="250" placeholder="contoh: 150" required>
+                </label>
+                <label>
+                    <span>FastingBS (0/1)</span>
+                    <select name="FastingBS" required>
+                        <option value="" disabled>Pilih...</option>
+                        <option value="0" selected>0 - Tidak</option>
+                        <option value="1">1 - Ya</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Oldpeak</span>
+                    <input type="number" name="Oldpeak" step="0.1" min="-5" max="10" placeholder="contoh: 1.5" required>
+                </label>
+
+                <label>
+                    <span>Jenis Kelamin</span>
+                    <select name="Sex" required>
+                        <option value="" disabled>Pilih...</option>
+                        {% for v in categories["Sex"] %}
+                        <option value="{{ v }}" {% if v in ['M','Male','Laki-laki'] %}selected{% endif %}>{{ v }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>
+                    <span>Chest Pain Type</span>
+                    <select name="ChestPainType" required>
+                        <option value="" disabled>Pilih...</option>
+                        {% for v in categories["ChestPainType"] %}
+                        <option value="{{ v }}" {% if v in ['ATA','Asymptomatic','NAP'] %}selected{% endif %}>{{ v }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>
+                    <span>Resting ECG</span>
+                    <select name="RestingECG" required>
+                        <option value="" disabled>Pilih...</option>
+                        {% for v in categories["RestingECG"] %}
+                        <option value="{{ v }}" {% if v in ['Normal'] %}selected{% endif %}>{{ v }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>
+                    <span>Exercise Angina</span>
+                    <select name="ExerciseAngina" required>
+                        <option value="" disabled>Pilih...</option>
+                        {% for v in categories["ExerciseAngina"] %}
+                        <option value="{{ v }}" {% if v in ['N','No','Tidak'] %}selected{% endif %}>{{ v }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>
+                    <span>ST Slope</span>
+                    <select name="ST_Slope" required>
+                        <option value="" disabled>Pilih...</option>
+                        {% for v in categories["ST_Slope"] %}
+                        <option value="{{ v }}" {% if v in ['Up','UP'] %}selected{% endif %}>{{ v }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
+
+            <div class="actions">
+                <button class="btn primary" type="submit">Prediksi Sekarang</button>
+                <button class="btn ghost" type="reset">Reset</button>
+            </div>
+        </form>
+
+        <footer class="footer">
+            <p>Dibuat dengan <span class="heart">❤</span> untuk analisis kesehatan.</p>
+        </footer>
+    </main>
+
+    <svg class="glow" viewBox="0 0 800 600" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+            <radialGradient id="g" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ff0066" stop-opacity="0.9" />
+                <stop offset="60%" stop-color="#7a00ff" stop-opacity="0.35" />
+                <stop offset="100%" stop-color="#000" stop-opacity="0" />
+            </radialGradient>
+        </defs>
+        <rect width="800" height="600" fill="url(#g)"></rect>
+    </svg>
+</body>
+</html>
+
+

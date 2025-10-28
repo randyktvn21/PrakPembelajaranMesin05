@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Prediksi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="backdrop"></div>
+    <main class="container">
+        <header class="header">
+            <h1>Hasil <span>Prediksi</span></h1>
+            <p>Berikut adalah hasil model berdasarkan data yang Anda masukkan.</p>
+        </header>
+
+        {% if error %}
+        <section class="card" style="border-left: 4px solid #ff4d4f;">
+            <p>{{ error }}</p>
+            <div class="actions" style="justify-content: flex-start; margin-top: 10px;">
+                <a class="btn" href="{{ url_for('index') }}">Kembali ke Form</a>
+            </div>
+        </section>
+        {% else %}
+        <section class="card" style="overflow:hidden;">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <div style="width:14px; height:14px; border-radius:50%; background: {{ 'var(--primary)' if label=='Sakit Jantung' else 'var(--accent)' }}; box-shadow: 0 0 18px {{ 'rgba(255,0,102,.7)' if label=='Sakit Jantung' else 'rgba(0,224,255,.6)' }};"></div>
+                <h2 style="margin:0;">{{ label }}</h2>
+            </div>
+            {% if proba is not none %}
+            <div style="margin-top:16px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; font-size:14px; color:var(--muted);">
+                    <span>Probabilitas (positif)</span>
+                    <span>{{ (proba*100) | round(1) }}%</span>
+                </div>
+                <div style="margin-top:8px; width:100%; height:12px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:999px; overflow:hidden;">
+                    <div style="height:100%; width: {{ (proba*100) | round(1) }}%; background: linear-gradient(90deg, var(--secondary), var(--primary)); box-shadow: 0 0 20px rgba(255,0,102,.35);"></div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="actions" style="margin-top:18px;">
+                <a class="btn" href="{{ url_for('index') }}">Prediksi Ulang</a>
+            </div>
+        </section>
+        {% endif %}
+
+        <footer class="footer">
+            <p>Ingat: Prediksi model bukan diagnosis medis.</p>
+        </footer>
+    </main>
+
+    <svg class="glow" viewBox="0 0 800 600" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+            <radialGradient id="g" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#00e0ff" stop-opacity="0.9" />
+                <stop offset="60%" stop-color="#7a00ff" stop-opacity="0.35" />
+                <stop offset="100%" stop-color="#000" stop-opacity="0" />
+            </radialGradient>
+        </defs>
+        <rect width="800" height="600" fill="url(#g)"></rect>
+    </svg>
+</body>
+</html>
+
+
